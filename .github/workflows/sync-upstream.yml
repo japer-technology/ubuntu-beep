@@ -75,8 +75,6 @@ jobs:
               raise SystemExit("upstream product must not contain .github automation")
           if not (upstream / "LICENSE").is_file():
               raise SystemExit("upstream repository license is missing")
-          if not (upstream / "family" / "schemas").is_dir():
-              raise SystemExit("upstream family schemas are missing")
           PY
 
       - name: Install validation tools
@@ -120,11 +118,6 @@ jobs:
               (
                   PurePosixPath(os.environ["SOURCE_PATH"]),
                   PurePosixPath("."),
-                  "tree",
-              ),
-              (
-                  PurePosixPath("family/schemas"),
-                  PurePosixPath("family/schemas"),
                   "tree",
               ),
               (
@@ -283,52 +276,23 @@ jobs:
                   )
               path.write_text(text.replace(old, new), encoding="utf-8")
 
-          replace(
-              "Makefile",
-              "  test     unit, integration, parity, and family conformance tests",
-              "  test     unit, integration, and parity tests",
-          )
           replace("Makefile", "REPOSITORY_ROOT := ../..", "REPOSITORY_ROOT := .")
-          replace(
-              "Makefile",
-              '\t"$(PYTHON)" -m unittest discover -s "$(REPOSITORY_ROOT)/tests/family" '
-              "-p 'test_*.py'\n",
-              "",
-          )
           replace(
               "Makefile",
               "\t@tar --exclude-vcs --exclude='products/beep/dist' \\\n"
               "\t     --exclude='__pycache__' --exclude='*.pyc' \\\n"
               '\t     -czf "dist/beep-$(VERSION).tar.gz" \\\n'
               '\t     -C "$(REPOSITORY_ROOT)" \\\n'
-              "\t     products/beep family/schemas LICENSE\n",
+              "\t     products/beep LICENSE\n",
               "\t@tar --exclude-vcs --exclude='./.github' --exclude='./dist' \\\n"
               "\t     --exclude='__pycache__' --exclude='*.pyc' \\\n"
               '\t     -czf "dist/beep-$(VERSION).tar.gz" \\\n'
               '\t     -C "$(REPOSITORY_ROOT)" .\n',
           )
 
-          definition_url = (
-              "https://github.com/japer-technology/ubuntu-zombie/blob/main/"
-              "docs/ai-agent/beep.md"
-          )
-          implementation_url = (
-              "https://github.com/japer-technology/ubuntu-zombie/blob/main/"
-              "docs/ai-agent/implementation.md"
-          )
           release_workflow_url = (
-              "https://github.com/japer-technology/ubuntu-zombie/blob/main/"
+              "https://github.com/japer-technology/beep/blob/main/"
               ".github/workflows/beep-release.yml"
-          )
-          replace(
-              "README.md",
-              "(../../docs/ai-agent/beep.md)",
-              f"({definition_url})",
-          )
-          replace(
-              "README.md",
-              "(../../docs/ai-agent/implementation.md)",
-              f"({implementation_url})",
           )
           replace(
               "README.md",
@@ -338,18 +302,10 @@ jobs:
               "make lint\nmake test\nmake package",
           )
           replace(
-              "UPSTREAM.md",
-              "Future Ubuntu Zombie changes are not inherited automatically; they "
-              "require a\nreviewed Beep change and a new independent Beep version.",
-              "This repository mirrors validated Beep snapshots from Ubuntu Zombie; "
-              "a new\nindependent Beep version remains required for each product "
-              "release.",
-          )
-          replace(
               "docs/SECURITY.md",
               "[`SECURITY.md`](../../../SECURITY.md)",
-              "[upstream security policy]"
-              "(https://github.com/japer-technology/ubuntu-zombie/security/policy)",
+              "[Beep security policy]"
+              "(https://github.com/japer-technology/beep/security/policy)",
           )
           replace(
               "docs/INSTALLATION.md",
@@ -366,31 +322,10 @@ jobs:
           )
           replace(
               "docs/TESTING.md",
-              "- a machine-readable product parity fixture; and\n"
-              "- the repository's shared family conformance suite, including Beep's\n"
-              "  product-specific `kill` extension.",
-              "- a machine-readable product parity fixture.\n\n"
-              "The upstream sync separately runs the repository's shared family\n"
-              "conformance suite, including Beep's product-specific `kill` extension,\n"
-              "before publishing.",
-          )
-          replace(
-              "docs/TESTING.md",
-              "| Source lint, unit, integration, parity, family | `Makefile`, `tests/` "
-              "| Automated |",
-              "| Source lint, unit, integration, and parity | `Makefile`, `tests/` "
-              "| Automated |\n"
-              "| Shared family conformance | "
-              "[canonical upstream suite]"
-              "(https://github.com/japer-technology/ubuntu-zombie/tree/main/tests/family) "
-              "| Automated before sync |",
-          )
-          replace(
-              "docs/TESTING.md",
               "| Release checksum, SBOM, provenance, signatures | `beep-release.yml` "
               "| Automated when published |",
               "| Release checksum, SBOM, provenance, signatures | "
-              f"[upstream release workflow]({release_workflow_url}) "
+              f"[Beep release workflow]({release_workflow_url}) "
               "| Automated when published |",
           )
           replace(
@@ -398,32 +333,38 @@ jobs:
               "`.github/workflows/beep-release.yml` is triggered by the independent "
               "Beep\nversion or tag. Every third-party action is pinned by commit. "
               "The workflow\nruns product lint and tests, packages only "
-              "`products/beep/`, applicable family\nschemas, and the repository "
-              "licence, generates an SPDX SBOM and test evidence,\ncomputes SHA-256 "
-              "checksums, creates a GitHub artifact attestation, signs every\nasset "
-              "with keyless cosign, and publishes the product tag and release.",
+              "`products/beep/` and the repository\nlicence, generates an SPDX SBOM "
+              "and test evidence, computes SHA-256 checksums,\ncreates a GitHub "
+              "artifact attestation, signs every asset with keyless cosign,\nand "
+              "publishes the product tag and release.",
               "The standalone package produced here contains the application tree at "
-              "its\nroot, the applicable `family/schemas/`, and `LICENSE`. The pinned\n"
-              f"[upstream release workflow]({release_workflow_url}) is triggered by "
-              "the\nindependent Beep version or tag. Every third-party action is "
+              "its\nroot and `LICENSE`. The pinned\n"
+              f"[Beep release workflow]({release_workflow_url}) is triggered by the\n"
+              "independent Beep version or tag. Every third-party action is "
               "pinned by commit.\nThe workflow runs product lint and tests, generates "
               "an SPDX SBOM and test\nevidence, computes SHA-256 checksums, creates a "
               "GitHub artifact attestation,\nsigns every asset with keyless cosign, "
               "and publishes the product tag and release.",
           )
+          replace(
+              "docs/RELEASE.md",
+              "`products/beep/VERSION`",
+              "`VERSION`",
+          )
+          replace(
+              "docs/UPGRADING.md",
+              "products/beep/scripts/manage.sh",
+              "scripts/manage.sh",
+              expected=2,
+          )
 
           forbidden = {
               "Makefile": (
                   "REPOSITORY_ROOT := ../..",
-                  "tests/family",
-                  "products/beep family/schemas LICENSE",
+                  "products/beep",
               ),
               "README.md": (
-                  "../../docs/ai-agent",
                   "make -C products/beep",
-              ),
-              "UPSTREAM.md": (
-                  "Future Ubuntu Zombie changes are not inherited automatically",
               ),
               "docs/SECURITY.md": ("../../../SECURITY.md",),
               "docs/INSTALLATION.md": (
@@ -431,12 +372,16 @@ jobs:
               ),
               "docs/TESTING.md": (
                   "make -C products/beep",
-                  "| Source lint, unit, integration, parity, family |",
                   "| Release checksum, SBOM, provenance, signatures | "
                   "`beep-release.yml` |",
               ),
               "docs/RELEASE.md": (
                   "`.github/workflows/beep-release.yml` is triggered",
+                  "products/beep",
+                  "family/schemas",
+              ),
+              "docs/UPGRADING.md": (
+                  "products/beep/scripts/manage.sh",
               ),
           }
           for relative, tokens in forbidden.items():
@@ -479,7 +424,24 @@ jobs:
                       )
 
           subprocess.run(["git", "-C", str(output), "init", "-q"], check=True)
-          subprocess.run(["git", "-C", str(output), "add", "--all"], check=True)
+          subprocess.run(
+              ["git", "-C", str(output), "add", "--force", "--all"],
+              check=True,
+          )
+          indexed_paths = {
+              raw_path.decode("utf-8")
+              for raw_path in subprocess.check_output(
+                  ["git", "-C", str(output), "ls-files", "--cached", "-z"]
+              ).split(b"\0")
+              if raw_path
+          }
+          expected_paths = set(entries)
+          if indexed_paths != expected_paths:
+              raise SystemExit(
+                  "standalone index does not contain every exported file: "
+                  f"missing={sorted(expected_paths - indexed_paths)!r}, "
+                  f"unexpected={sorted(indexed_paths - expected_paths)!r}"
+              )
           standalone_tree = subprocess.check_output(
               ["git", "-C", str(output), "write-tree"],
               text=True,
@@ -523,8 +485,8 @@ jobs:
           required = {
               "LICENSE",
               "PRODUCT.json",
-              "family/schemas/product-v1.schema.json",
               "payload/agent/beep/management.py",
+              "scripts/install.sh",
               "scripts/manage.sh",
           }
           names = set()
@@ -637,7 +599,7 @@ jobs:
           git -C upstream remote add origin \
             "https://github.com/${SOURCE_REPOSITORY}.git"
           git -C upstream sparse-checkout init --cone
-          git -C upstream sparse-checkout set "$SOURCE_PATH" family/schemas
+          git -C upstream sparse-checkout set "$SOURCE_PATH"
           git -C upstream fetch --depth=1 --filter=blob:none --no-tags \
             origin "$SOURCE_SHA"
           git -C upstream checkout --detach "$SOURCE_SHA"
@@ -716,7 +678,6 @@ jobs:
 
           expected_sources = (
               (os.environ["SOURCE_PATH"], "."),
-              ("family/schemas", "family/schemas"),
               ("LICENSE", "LICENSE"),
           )
           sources = metadata.get("sources")
@@ -818,7 +779,7 @@ jobs:
         run: |
           set -euo pipefail
 
-          git -C target add --all
+          git -C target add --force --all
           if git -C target diff --cached --quiet; then
             echo "Already synchronized with ubuntu-zombie."
             echo "### Already synchronized" >>"$GITHUB_STEP_SUMMARY"
