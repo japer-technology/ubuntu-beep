@@ -9,6 +9,9 @@ workflow are implemented. Beep is not yet admitted to the production family
 catalogue: recorded supported-VM, root-peer co-installation, external security
 review, and published release-verification evidence remain release gates.
 
+> [!WARNING]
+> This is pre-alpha. It is not yet conformant or safe for real execution.
+
 ## Install
 
 On a supported Ubuntu Desktop 22.04 or 24.04 LTS host, run:
