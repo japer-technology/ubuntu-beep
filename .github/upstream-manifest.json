@@ -116,7 +116,7 @@
   "source_repository": "japer-technology/ubuntu-zombie",
   "sources": [
     {
-      "object": "01b74db72b443d3d2927af383bdf1cccea4c7618",
+      "object": "7dc597e3b46ccc5d266d71e0702ba773e23094ce",
       "source_path": "products/beep",
       "target_path": "."
     },
@@ -126,5 +126,5 @@
       "target_path": "LICENSE"
     }
   ],
-  "standalone_tree": "93d29e95bd85c10c2d3fc264a8ac303cac40d7c4"
+  "standalone_tree": "9b39461313b383a606faae1763d2969e209a9ac9"
 }
