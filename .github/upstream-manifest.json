@@ -19,14 +19,6 @@
     "docs/TROUBLESHOOTING.md",
     "docs/UPGRADING.md",
     "docs/VISION.md",
-    "family/schemas/audit-event-v1.schema.json",
-    "family/schemas/catalog-v1.schema.json",
-    "family/schemas/installation-v1.schema.json",
-    "family/schemas/inventory-v1.schema.json",
-    "family/schemas/product-v1.schema.json",
-    "family/schemas/receipt-v1.schema.json",
-    "family/schemas/request-v1.schema.json",
-    "family/schemas/response-v1.schema.json",
     "payload/agent/audit.py",
     "payload/agent/auth.py",
     "payload/agent/beep/__init__.py",
@@ -107,6 +99,7 @@
     "payload/systemd/beep-chat.service",
     "payload/systemd/beep-health.service",
     "payload/systemd/beep-health.timer",
+    "scripts/install.sh",
     "scripts/manage.sh",
     "tests/integration/test_cli.py",
     "tests/integration/test_http.py",
@@ -123,14 +116,9 @@
   "source_repository": "japer-technology/ubuntu-zombie",
   "sources": [
     {
-      "object": "5252e6c16f563eb196f0259fcc2f05fbecde6b14",
+      "object": "01b74db72b443d3d2927af383bdf1cccea4c7618",
       "source_path": "products/beep",
       "target_path": "."
-    },
-    {
-      "object": "bf24e4a6bd6e51d46518805a3121a0e546d93f12",
-      "source_path": "family/schemas",
-      "target_path": "family/schemas"
     },
     {
       "object": "807beab46186fe214a75850f798785274654f0a4",
@@ -138,5 +126,5 @@
       "target_path": "LICENSE"
     }
   ],
-  "standalone_tree": "a7aa7fbfb73b212244040aa648665cec3b98c634"
+  "standalone_tree": "93d29e95bd85c10c2d3fc264a8ac303cac40d7c4"
 }

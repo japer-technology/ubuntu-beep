@@ -15,8 +15,8 @@ attestation, signatures, and GitHub release.
 | Signatures | Cosign bundle, signature, and certificate per release asset |
 
 The standalone package produced here contains the application tree at its
-root, the applicable `family/schemas/`, and `LICENSE`. The pinned
-[upstream release workflow](https://github.com/japer-technology/ubuntu-zombie/blob/main/.github/workflows/beep-release.yml) is triggered by the
+root and `LICENSE`. The pinned
+[Beep release workflow](https://github.com/japer-technology/beep/blob/main/.github/workflows/beep-release.yml) is triggered by the
 independent Beep version or tag. Every third-party action is pinned by commit.
 The workflow runs product lint and tests, generates an SPDX SBOM and test
 evidence, computes SHA-256 checksums, creates a GitHub artifact attestation,
@@ -39,18 +39,18 @@ The verifier requires exactly one versioned checksum manifest, rejects unsafe
 artifact names, verifies every listed digest, verifies the checksum and listed
 assets against the cosign identity for
 `.github/workflows/beep-release.yml` in
-`japer-technology/ubuntu-zombie`, and verifies each attested subject with the
+`japer-technology/beep`, and verifies each attested subject with the
 local provenance bundle.
 
 Then confirm:
 
-1. the tag equals the extracted `products/beep/VERSION`;
+1. the tag equals the extracted `VERSION`;
 2. `PRODUCT.json` still declares only Beep namespaces and operations;
 3. test evidence names the expected commit and does not claim unrun host gates;
 4. the SBOM and [`UPSTREAM.md`](../UPSTREAM.md) match reviewed dependencies;
 5. the changelog describes the intended migration and open risks; and
 6. the install plan names only Beep resources.
 
-Do not install a lone archive, copy an Ubuntu Zombie runtime, use a release
-from `japer-technology/beep`, weaken the certificate identity, or treat
+Do not install a lone archive, copy another product's runtime, use a release
+from another repository, weaken the certificate identity, or treat
 source-checkout tests as signed-release evidence.

@@ -1,7 +1,7 @@
 # Backup, update, and rollback
 
-Beep versions are independent of Ubuntu Zombie. Review and verify every Beep
-release; never point the installed wrapper at an unverified checkout.
+Review and verify every Beep release; never point the installed wrapper at an
+unverified checkout.
 
 ## Backup
 
@@ -22,9 +22,9 @@ Run the lifecycle command from the newly extracted, independently verified
 Beep release:
 
 ```bash
-sudo /path/to/verified/products/beep/scripts/manage.sh \
+sudo /path/to/verified/scripts/manage.sh \
   update --dry-run --json
-sudo /path/to/verified/products/beep/scripts/manage.sh \
+sudo /path/to/verified/scripts/manage.sh \
   update --yes --json
 ```
 

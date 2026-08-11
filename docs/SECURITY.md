@@ -47,5 +47,5 @@ root command or protect Beep from another root-capable product.
 
 Do not publish a suspected vulnerability or real diagnostic bundle in an
 issue. Follow the repository's private process in
-[upstream security policy](https://github.com/japer-technology/ubuntu-zombie/security/policy), identify Beep and its version, and omit
+[Beep security policy](https://github.com/japer-technology/beep/security/policy), identify Beep and its version, and omit
 real credentials, conversations, host data, and sibling state.
